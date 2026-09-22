@@ -1,0 +1,20 @@
+#!/bin/sh
+# Portable pre-commit hook for the Serafort Symfony SDK.
+#
+# This is a Composer/PHP package with no npm/Node.js involved, so Husky (an
+# npm-ecosystem tool) does not apply here. This plain POSIX shell script,
+# wired in via `git config core.hooksPath .githooks`, is the idiomatic
+# dependency-free equivalent for a PHP/Composer repo.
+#
+# Enable it once per clone with:
+#   git config core.hooksPath .githooks
+
+set -e
+
+echo "[pre-commit] Validating composer.json..."
+composer validate --strict
+
+echo "[pre-commit] Running phpunit..."
+vendor/bin/phpunit
+
+echo "[pre-commit] All checks passed."
